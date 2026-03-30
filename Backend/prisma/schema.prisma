@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  notes     Note[]
+  createdAt DateTime @default(now())
+}
+
+model Note {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String?
+  fileName     String
+  fileType     String
+  fileData     Bytes    @db.ByteA
+  semester     Int
+  subject      Subject  @relation(fields: [subjectId], references: [id], onDelete: Restrict)
+  subjectId    Int
+  branch       Branch   @relation(fields: [branchId], references: [id], onDelete: Restrict)
+  branchId     Int
+  uploadedBy   User     @relation(fields: [uploadedById], references: [id], onDelete: Restrict)
+  uploadedById Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Subject {
+  id    Int    @id @default(autoincrement())
+  name  String
+  code  String?
+  notes Note[]
+}
+
+model Branch {
+  id    Int    @id @default(autoincrement())
+  name  String
+  code  String?
+  notes Note[]
+}
+
+enum Role {
+  ADMIN
+  USER
+}
