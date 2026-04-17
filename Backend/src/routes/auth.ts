@@ -44,6 +44,7 @@ router.post('/login', authLimiter, async (req, res, next) => {
     const body = loginSchema.parse(req.body);
     const user = await prisma.user.findUnique({
       where: { email: body.email.toLowerCase() },
+      select: { id: true, name: true, email: true, role: true, password: true, createdAt: true },
     });
     const ok = user && (await bcrypt.compare(body.password, user.password));
     if (!ok) {
@@ -51,16 +52,9 @@ router.post('/login', authLimiter, async (req, res, next) => {
       return;
     }
     const token = signToken(user.id, user.role);
-    res.json({
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        createdAt: user.createdAt,
-      },
-      token,
-    });
+    // Exclude password hash from the response
+    const { password: _, ...safeUser } = user;
+    res.json({ user: safeUser, token });
   } catch (e) {
     next(e);
   }
