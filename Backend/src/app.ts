@@ -9,6 +9,9 @@ import { errorHandler } from './middleware/errorHandler.js';
 
 const app = express();
 
+// Trust the first proxy (Render, Vercel, etc.) so rate-limiter sees real client IPs
+app.set('trust proxy', 1);
+
 const corsOrigin = process.env.CORS_ORIGIN ?? 'http://localhost:3000';
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 app.use(
