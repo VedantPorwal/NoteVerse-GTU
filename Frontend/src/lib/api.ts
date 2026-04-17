@@ -1,7 +1,8 @@
 import { getToken } from './authStorage';
 
-/** Empty string: use Vite dev proxy to backend (`/api` → localhost:4000). */
-export const API_ROOT = (import.meta.env.VITE_API_URL as string | undefined) ?? '';
+/** In dev uses Vite proxy (empty string). In production falls back to API on Render. */
+export const API_ROOT =
+  (import.meta.env.VITE_API_URL as string | undefined) ?? 'https://noteverse-gtu-api.onrender.com';
 
 type ApiErrorBody = { error?: { message?: string } };
 
