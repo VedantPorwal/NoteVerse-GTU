@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import rateLimit from 'express-rate-limit';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { Prisma, Role } from '@prisma/client';
 import { prisma } from '../lib/prisma.js';
 import { registerSchema, loginSchema } from '../validators/schemas.js';
