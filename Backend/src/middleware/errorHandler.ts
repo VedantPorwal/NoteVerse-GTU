@@ -46,5 +46,7 @@ export function errorHandler(err: unknown, _req: Request, res: Response, _next: 
   }
 
   console.error(err);
-  res.status(500).json({ error: { message: 'Internal server error' } });
+  const message = err instanceof Error ? err.message : 'Internal server error';
+  const stack = err instanceof Error ? err.stack : undefined;
+  res.status(500).json({ error: { message, stack } });
 }
