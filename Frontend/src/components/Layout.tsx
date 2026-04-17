@@ -27,8 +27,8 @@ const SidebarItem = ({ icon: Icon, label, href, active, onClick }: SidebarItemPr
     to={href}
     onClick={onClick}
     className={`flex items-center gap-3 px-4 py-3 mx-4 rounded-xl transition-all duration-200 group ${active
-        ? 'bg-primary/10 text-primary font-bold'
-        : 'text-slate-500 hover:bg-white hover:translate-x-1'
+      ? 'bg-primary/10 text-primary font-bold'
+      : 'text-slate-500 hover:bg-white hover:translate-x-1'
       }`}
   >
     <Icon size={20} className={active ? 'text-primary' : 'text-slate-400 group-hover:text-primary'} />
